@@ -24,12 +24,14 @@ cd ../customer-vertx-service/
 docker build -t marcelomrwin/customer-vertx-service .
 ```
 
-###Return to root folder
+### Return to root folder
+```
 cd ..
 oc apply -f openshift/account-deployment.yaml
 oc apply -f openshift/customer-deployment.yaml
+```
 
-###Create mongodb app
+### Create mongodb app
 ```
 oc set env --from=secrets/mongodb dc/account-service
 oc set env --from=secrets/mongodb dc/customer-service
@@ -39,8 +41,10 @@ oc apply -f openshift/account-image.yaml
 oc apply -f openshift/customer-image.yaml
 ```
 
-###Deploy images
+### Deploy images
+```
 oc login -u developer -p dev
+```
 #get token
 oc whoami -t
 
