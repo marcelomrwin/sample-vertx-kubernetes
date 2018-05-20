@@ -2,8 +2,6 @@
 
 Detailed description can be found here: [Quick guide to deploying Java apps on OpenShift](https://piotrminkowski.wordpress.com/2018/05/18/quick-guide-to-deploying-java-apps-on-openshift/)
 
-# A Quick Guide to Deploying Java Apps on OpenShift
-
 ```
 minishift start --vm-driver=virtualbox --memory=3G
 eval $(minishift docker-env)
@@ -14,29 +12,34 @@ git clone git@github.com:marcelomrwin/sample-vertx-kubernetes.git
 cd sample-vertx-kubernetes/
 git checkout openshift
 ```
-
+```
 mvn clean package -DskipTests
-
+```
+```
 cd account-vertx-service/
 docker build -t marcelomrwin/account-vertx-service .
-
+```
+```
 cd ../customer-vertx-service/
 docker build -t marcelomrwin/customer-vertx-service .
+```
 
-# return to root folder
+###Return to root folder
 cd ..
 oc apply -f openshift/account-deployment.yaml
 oc apply -f openshift/customer-deployment.yaml
 
-#create mongodb app
-
+###Create mongodb app
+```
 oc set env --from=secrets/mongodb dc/account-service
 oc set env --from=secrets/mongodb dc/customer-service
-
+```
+```
 oc apply -f openshift/account-image.yaml
 oc apply -f openshift/customer-image.yaml
+```
 
-#deploy images
+###Deploy images
 oc login -u developer -p dev
 #get token
 oc whoami -t
