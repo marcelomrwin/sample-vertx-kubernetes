@@ -3,4 +3,4 @@ kind: "ImageStream"
 metadata:
   name: "customer-vertx-service"
 spec:
-  dockerImageRepository: "piomin/customer-vertx-service"
+  dockerImageRepository: "marcelomrwin/customer-vertx-service"

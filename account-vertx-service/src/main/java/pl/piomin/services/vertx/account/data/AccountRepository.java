@@ -8,6 +8,7 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.ext.mongo.MongoClient;
+import io.vertx.serviceproxy.ServiceProxyBuilder;
 
 @ProxyGen
 public interface AccountRepository {
@@ -20,19 +21,20 @@ public interface AccountRepository {
 
 	@Fluent
 	AccountRepository findById(String id, Handler<AsyncResult<Account>> resultHandler);
-	
+
 	@Fluent
 	AccountRepository findByCustomer(String customerId, Handler<AsyncResult<List<Account>>> resultHandler);
-	
+
 	@Fluent
 	AccountRepository remove(String id, Handler<AsyncResult<Void>> resultHandler);
 
 	static AccountRepository createProxy(Vertx vertx, String address) {
-		return new AccountRepositoryVertxEBProxy(vertx, address);
+		// return new AccountRepositoryVertxEBProxy(vertx, address);
+		return new ServiceProxyBuilder(vertx).setAddress(address).build(AccountRepository.class);
 	}
-	
+
 	static AccountRepository create(MongoClient client) {
 		return new AccountRepositoryImpl(client);
 	}
-	
+
 }

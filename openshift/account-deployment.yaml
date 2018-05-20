@@ -10,7 +10,7 @@ spec:
     spec:
       containers:
         - name: "account-vertx-service"
-          image: "piomin/account-vertx-service:latest"
+          image: "marcelomrwin/account-vertx-service:latest"
           ports:
             - containerPort: 8095
               protocol: "TCP"

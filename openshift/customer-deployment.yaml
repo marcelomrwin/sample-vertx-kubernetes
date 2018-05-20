@@ -10,7 +10,7 @@ spec:
     spec:
       containers:
         - name: "customer-vertx-service"
-          image: "piomin/customer-vertx-service"
+          image: "marcelomrwin/customer-vertx-service"
           ports:
             - containerPort: 8090
               protocol: "TCP"
