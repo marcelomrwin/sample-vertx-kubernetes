@@ -8,7 +8,7 @@ eval $(minishift docker-env)
 eval $(minishift oc-env)
 ```
 ```
-git clone git@github.com:marcelomrwin/sample-vertx-kubernetes.git
+git clone https://github.com/marcelomrwin/sample-vertx-kubernetes.git
 cd sample-vertx-kubernetes/
 git checkout openshift
 ```
