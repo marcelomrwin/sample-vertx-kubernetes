@@ -33,9 +33,20 @@ oc apply -f openshift/customer-deployment.yaml
 
 ### Create mongodb app
 ```
+oc new-app --template=mongodb-persistent -n myproject \
+  MONGODB_USER=mongouser -p \
+  MONGODB_PASSWORD=mongopasswd -p \
+  MONGODB_DATABASE=mongodb -p \
+  MONGODB_ADMIN_PASSWORD=mongopasswd
+```
+
+### Update DeploymentConfig with mongodb env vars
+```
 oc set env --from=secrets/mongodb dc/account-service
 oc set env --from=secrets/mongodb dc/customer-service
 ```
+
+### Create ImageStreams
 ```
 oc apply -f openshift/account-image.yaml
 oc apply -f openshift/customer-image.yaml
@@ -45,28 +56,46 @@ oc apply -f openshift/customer-image.yaml
 ```
 oc login -u developer -p dev
 ```
-#get token
+### Get token
+```
 oc whoami -t
+```
 
-#login in docker with token
+### Login in docker with token
+```
 docker login -u developer -p <token> <URL Docker Registry: Ex. 172.30.1.1:5000>
+```
 
-#Tag images
-docker tag marcelomrwin/account-vertx-service 172.30.1.1:5000/myproject/account-vertx-service:latest
-docker tag marcelomrwin/customer-vertx-service 172.30.1.1:5000/myproject/customer-vertx-service:latest
+### Tag images
+```
+docker tag <USER>/account-vertx-service <DOCKER_URL>/myproject/account-vertx-service:latest
+```
+EX: <i>marcelomrwin/account-vertx-service 172.30.1.1:5000/myproject/account-vertx-service:latest</i>
+```
+docker tag <USER>/customer-vertx-service <DOCKER_URL>/myproject/customer-vertx-service:latest
+```
+EX: <i>docker tag marcelomrwin/customer-vertx-service 172.30.1.1:5000/myproject/customer-vertx-service:latest</i>
 
-#Push images
+### Push images
+```
 docker push 172.30.1.1:5000/myproject/account-vertx-service:latest
 docker push 172.30.1.1:5000/myproject/customer-vertx-service:latest
+```
 
-#create services
+### Create services
+```
 oc apply -f openshift/account-service.yaml
 oc apply -f openshift/customer-service.yaml
+```
 
-#create routes
+### Create routes
+```
 oc expose svc/account-service
 oc expose svc/customer-service
+```
 
-#Running deployments
+### Running deployments
+```
 oc rollout latest dc/account-service
 oc rollout latest dc/customer-service
+```
